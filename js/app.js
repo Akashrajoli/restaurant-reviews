@@ -1,6 +1,8 @@
 // Theme Toggle
 function setupThemeToggle() {
   const themeToggle = document.getElementById('theme-toggle');
+  if (!themeToggle) return;
+  
   const icon = themeToggle.querySelector('i');
   
   // Check for saved theme preference
@@ -28,14 +30,36 @@ function setupThemeToggle() {
   });
 }
 
-// Review System
+// Skip Link
+function setupSkipLink() {
+  const skipLink = document.querySelector('.skip-link');
+  if (!skipLink) return;
+  
+  skipLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById('main');
+    if (target) {
+      target.setAttribute('tabindex', '-1');
+      target.focus();
+      window.scrollTo({
+        top: target.offsetTop - 20,
+        behavior: 'smooth'
+      });
+      setTimeout(() => target.removeAttribute('tabindex'), 1000);
+    }
+  });
+}
+
+// Review System (only on restaurant page)
 function setupReviewSystem() {
+  const reviewFormContainer = document.getElementById('review-form-container');
+  if (!reviewFormContainer) return;
+  
   const reviews = JSON.parse(localStorage.getItem('restaurantReviews')) || {};
-  const restaurantId = '1'; // Hardcoded for this example
+  const restaurantId = '1'; // Using a fixed ID for this demo
   
   // DOM Elements
   const reviewBtn = document.getElementById('write-review-btn');
-  const reviewForm = document.getElementById('review-form-container');
   const cancelBtn = document.getElementById('cancel-review');
   const form = document.getElementById('review-form');
   const reviewsContainer = document.getElementById('reviews-container');
@@ -63,15 +87,15 @@ function setupReviewSystem() {
   renderReviews(reviews[restaurantId]);
   
   // Toggle review form
-  reviewBtn?.addEventListener('click', () => {
-    reviewForm.style.display = reviewForm.style.display === 'none' ? 'block' : 'none';
-    reviewBtn.innerHTML = reviewForm.style.display === 'none' ? 
+  reviewBtn.addEventListener('click', () => {
+    reviewFormContainer.style.display = reviewFormContainer.style.display === 'none' ? 'block' : 'none';
+    reviewBtn.innerHTML = reviewFormContainer.style.display === 'none' ? 
       '<i class="bi bi-pencil-square"></i> Write a Review' : 
       '<i class="bi bi-x-circle"></i> Cancel';
   });
   
-  cancelBtn?.addEventListener('click', () => {
-    reviewForm.style.display = 'none';
+  cancelBtn.addEventListener('click', () => {
+    reviewFormContainer.style.display = 'none';
     reviewBtn.innerHTML = '<i class="bi bi-pencil-square"></i> Write a Review';
     form.reset();
     resetStarRating();
@@ -89,7 +113,7 @@ function setupReviewSystem() {
   });
   
   // Form submission
-  form?.addEventListener('submit', function(e) {
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
     
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -130,7 +154,7 @@ function setupReviewSystem() {
       // Reset form
       form.reset();
       resetStarRating();
-      reviewForm.style.display = 'none';
+      reviewFormContainer.style.display = 'none';
       reviewBtn.innerHTML = '<i class="bi bi-pencil-square"></i> Write a Review';
       
       // Render new review
@@ -205,5 +229,6 @@ function setupReviewSystem() {
 // Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', function() {
   setupThemeToggle();
+  setupSkipLink();
   setupReviewSystem();
 });

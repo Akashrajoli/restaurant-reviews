@@ -11,8 +11,8 @@
 <body class="light-theme">
   <header class="header-bg">
     <div class="container py-4 text-center">
-      <h1 class="display-5 mb-0 animate-pop-in">Restaurant Reviews</h1>
-      <p class="lead mb-0 animate-pop-in" style="animation-delay: 0.2s">Discover your next favorite dining spot</p>
+      <h1 class="display-5 mb-0">Restaurant Reviews</h1>
+      <p class="lead mb-0">Discover your next favorite dining spot</p>
     </div>
   </header>
 
@@ -20,27 +20,27 @@
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
         <a href="#main" class="btn btn-sm btn-outline-dark skip-link">Skip to Content</a>
-        <div>
-          <button id="theme-toggle" class="btn btn-sm btn-outline-dark">
-            <i class="bi bi-moon-fill"></i> Dark Mode
-          </button>
-        </div>
+        <button id="theme-toggle" class="btn btn-sm btn-outline-dark">
+          <i class="bi bi-moon-fill"></i> Dark Mode
+        </button>
       </div>
     </div>
   </nav>
 
   <main id="main" class="container my-5">
     <div class="text-center mb-5">
-      <h2 class="h4 mb-3 animate-slide-up">Featured Restaurants</h2>
-      <p class="text-muted animate-slide-up" style="animation-delay: 0.1s">Highly rated by our community</p>
+      <h2 class="h4 mb-3">Featured Restaurants</h2>
+      <p class="text-muted">Highly rated by our community</p>
     </div>
     
     <div class="row g-4 justify-content-center">
       <!-- Pasta Paradise -->
-      <div class="col-lg-6 animate-slide-up" style="animation-delay: 0.2s">
+      <div class="col-lg-6">
         <div class="card restaurant-card h-100">
           <div class="card-img-container">
-            <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&auto=format" class="card-img-top" alt="Pasta Paradise restaurant interior">
+            <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&auto=format" 
+                 class="card-img-top" 
+                 alt="Pasta Paradise restaurant interior with cozy lighting">
             <div class="rating-overlay">
               <span class="rating-stars">★★★★☆</span>
               <span class="visually-hidden">4.2 out of 5 stars</span>
@@ -54,7 +54,32 @@
               <span class="badge bg-light text-dark">Gluten-Free</span>
             </div>
             <p class="card-text px-lg-5">Authentic Italian cuisine with seasonal ingredients in an elegant setting.</p>
-            <a href="restaurant.html?id=1" class="btn btn-outline-dark mt-3">View Details & Reviews</a>
+            <a href="restaurant.html" class="btn btn-outline-dark mt-3">View Details & Reviews</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Burger Barn -->
+      <div class="col-lg-6">
+        <div class="card restaurant-card h-100">
+          <div class="card-img-container">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format" 
+                 class="card-img-top" 
+                 alt="Burger Barn restaurant with juicy burgers">
+            <div class="rating-overlay">
+              <span class="rating-stars">★★★☆☆</span>
+              <span class="visually-hidden">3.8 out of 5 stars</span>
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <h3 class="h4 card-title mb-3">Burger Barn</h3>
+            <div class="d-flex justify-content-center mb-3">
+              <span class="badge bg-light text-dark me-2">American</span>
+              <span class="badge bg-light text-dark me-2">Casual</span>
+              <span class="badge bg-light text-dark">Vegan Options</span>
+            </div>
+            <p class="card-text px-lg-5">Juicy burgers with premium ingredients and creative toppings.</p>
+            <a href="#" class="btn btn-outline-dark mt-3">Coming Soon</a>
           </div>
         </div>
       </div>
