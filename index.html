@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Restaurant Reviews</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header role="banner" class="bg-primary text-white p-3">
+    <div class="container">
+      <h1 class="h2 mb-0">Restaurant Reviews</h1>
+      <p class="mb-0">Accessible dining experiences for everyone</p>
+    </div>
+  </header>
+
+  <nav role="navigation" aria-label="Main" class="bg-light p-3">
+    <div class="container">
+      <ul class="nav">
+        <li class="nav-item"><a href="#main" class="nav-link">Skip to Content</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Add Review</a></li>
+        <li class="nav-item">
+          <button id="contrast-toggle" class="btn btn-sm btn-outline-secondary">
+            Toggle High Contrast
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" role="main" class="container my-4">
+    <h2 class="h4 mb-3">Nearby Restaurants</h2>
+    
+    <div class="row" id="restaurant-list">
+      <!-- Restaurant cards will be inserted here by JavaScript -->
+    </div>
+  </main>
+
+  <footer role="contentinfo" class="bg-light p-3 mt-4">
+    <div class="container text-center">
+      <p>&copy; 2023 Accessible Restaurant Reviews</p>
+    </div>
+  </footer>
+
+  <script src="js/a11y.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

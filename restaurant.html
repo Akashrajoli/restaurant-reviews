@@ -1,0 +1,50 @@
+/* Accessibility overrides */
+.high-contrast {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.high-contrast .bg-light {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+
+/* For reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Ensure proper focus styles */
+:focus {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
+/* Visually hidden but accessible to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Accessible rating stars */
+.rating {
+  font-size: 1.5rem;
+  color: #ffc107;
+}
+
+/* Make sure buttons are large enough for touch */
+.btn, .form-control {
+  min-height: 44px;
+}
