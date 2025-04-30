@@ -46,3 +46,52 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+// Add to your existing app.js
+
+// Star Rating Animation
+function animateStars() {
+  const stars = document.querySelectorAll('.star');
+  stars.forEach((star, index) => {
+    star.style.animationDelay = `${index * 0.1}s`;
+  });
+}
+
+// Review Form Toggle
+function setupReviewForm() {
+  const reviewBtn = document.getElementById('write-review-btn');
+  const reviewForm = document.getElementById('review-form-container');
+  
+  if (reviewBtn && reviewForm) {
+    reviewBtn.addEventListener('click', () => {
+      reviewForm.style.display = reviewForm.style.display === 'none' ? 'block' : 'none';
+      reviewBtn.textContent = reviewForm.style.display === 'none' ? 'Write a Review' : 'Cancel';
+    });
+  }
+
+  // Star Rating Input
+  const starInputs = document.querySelectorAll('.star-input');
+  starInputs.forEach(star => {
+    star.addEventListener('click', function() {
+      const value = parseInt(this.getAttribute('data-value'));
+      
+      // Update visual display
+      starInputs.forEach((s, i) => {
+        if (i < value) {
+          s.classList.add('active');
+          s.textContent = '★';
+        } else {
+          s.classList.remove('active');
+          s.textContent = '☆';
+        }
+      });
+    });
+  });
+}
+
+// Initialize when DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Your existing code...
+  
+  animateStars();
+  setupReviewForm();
+});
