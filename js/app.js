@@ -1,27 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // High contrast toggle
-  const contrastToggle = document.getElementById('contrast-toggle');
-  if (contrastToggle) {
-    // Check for saved preference
-    if (localStorage.getItem('highContrast') === 'true') {
-      document.body.classList.add('high-contrast');
-      contrastToggle.textContent = 'Normal Mode';
-    }
-    
-    contrastToggle.addEventListener('click', function() {
-      document.body.classList.toggle('high-contrast');
-      const isHighContrast = document.body.classList.contains('high-contrast');
-      this.textContent = isHighContrast ? 'Normal Mode' : 'High Contrast';
-      localStorage.setItem('highContrast', isHighContrast);
-      
-      // Add animation feedback
-      this.classList.add('animate__animated', 'animate__pulse');
-      setTimeout(() => {
-        this.classList.remove('animate__animated', 'animate__pulse');
-      }, 500);
-    });
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  // Check for saved theme preference
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+    themeToggle.textContent = 'Light Mode';
   }
   
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    
+    // Update button text
+    this.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    
+    // Save preference
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    // Add animation
+    this.classList.add('animate__animated', 'animate__pulse');
+    setTimeout(() => {
+      this.classList.remove('animate__animated', 'animate__pulse');
+    }, 500);
+  });
+
   // Skip to content functionality
   const skipLink = document.querySelector('.skip-link');
   if (skipLink) {
@@ -42,22 +45,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
-  // Add hover effects to restaurant cards
-  const cards = document.querySelectorAll('.restaurant-card');
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', function() {
-      const stars = this.querySelector('.rating-stars');
-      if (stars) {
-        stars.style.animation = 'pulse 0.8s infinite, float 3s ease-in-out infinite';
-      }
-    });
-    
-    card.addEventListener('mouseleave', function() {
-      const stars = this.querySelector('.rating-stars');
-      if (stars) {
-        stars.style.animation = 'pulse 2s infinite, float 4s ease-in-out infinite';
-      }
-    });
-  });
 });
