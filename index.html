@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant Reviews</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
 <body class="light-theme">
   <header class="header-bg">
     <div class="container py-4 text-center">
-      <h1 class="display-5 mb-0">Restaurant Reviews</h1>
-      <p class="lead mb-0">Curated dining experiences</p>
+      <h1 class="display-5 mb-0 animate-pop-in">Restaurant Reviews</h1>
+      <p class="lead mb-0 animate-pop-in" style="animation-delay: 0.2s">Discover your next favorite dining spot</p>
     </div>
   </header>
 
@@ -20,8 +21,8 @@
       <div class="d-flex justify-content-between align-items-center">
         <a href="#main" class="btn btn-sm btn-outline-dark skip-link">Skip to Content</a>
         <div>
-          <button id="theme-toggle" class="btn btn-sm btn-outline-dark mx-1">
-            Dark Mode
+          <button id="theme-toggle" class="btn btn-sm btn-outline-dark">
+            <i class="bi bi-moon-fill"></i> Dark Mode
           </button>
         </div>
       </div>
@@ -30,16 +31,16 @@
 
   <main id="main" class="container my-5">
     <div class="text-center mb-5">
-      <h2 class="h4 mb-3">Featured Restaurant</h2>
-      <p class="text-muted">Discover exceptional dining experiences</p>
+      <h2 class="h4 mb-3 animate-slide-up">Featured Restaurants</h2>
+      <p class="text-muted animate-slide-up" style="animation-delay: 0.1s">Highly rated by our community</p>
     </div>
     
-    <div class="row justify-content-center">
-      <!-- Single Featured Restaurant -->
-      <div class="col-lg-8">
-        <div class="card restaurant-card">
+    <div class="row g-4 justify-content-center">
+      <!-- Pasta Paradise -->
+      <div class="col-lg-6 animate-slide-up" style="animation-delay: 0.2s">
+        <div class="card restaurant-card h-100">
           <div class="card-img-container">
-            <img src="images/pasta.jpg" class="card-img-top" alt="Elegant interior of Pasta Paradise restaurant">
+            <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&auto=format" class="card-img-top" alt="Pasta Paradise restaurant interior">
             <div class="rating-overlay">
               <span class="rating-stars">★★★★☆</span>
               <span class="visually-hidden">4.2 out of 5 stars</span>
@@ -52,8 +53,8 @@
               <span class="badge bg-light text-dark me-2">Romantic</span>
               <span class="badge bg-light text-dark">Gluten-Free</span>
             </div>
-            <p class="card-text px-lg-5">Award-winning authentic Italian cuisine with seasonal ingredients and an extensive wine selection in an elegant setting.</p>
-            <a href="restaurant.html?id=1" class="btn btn-outline-dark mt-3">Explore Menu & Reviews</a>
+            <p class="card-text px-lg-5">Authentic Italian cuisine with seasonal ingredients in an elegant setting.</p>
+            <a href="restaurant.html?id=1" class="btn btn-outline-dark mt-3">View Details & Reviews</a>
           </div>
         </div>
       </div>
@@ -63,7 +64,7 @@
   <footer class="footer-bg py-4 mt-5">
     <div class="container text-center">
       <p class="mb-1">&copy; 2023 Restaurant Reviews</p>
-      <p class="small text-muted mb-0">Accessible dining experiences for everyone</p>
+      <p class="small text-muted mb-0">Making dining accessible for everyone</p>
     </div>
   </footer>
 

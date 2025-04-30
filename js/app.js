@@ -1,97 +1,235 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Theme toggle functionality
+// Theme Toggle
+function setupThemeToggle() {
   const themeToggle = document.getElementById('theme-toggle');
+  const icon = themeToggle.querySelector('i');
   
   // Check for saved theme preference
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-theme');
-    themeToggle.textContent = 'Light Mode';
+    icon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+    themeToggle.innerHTML = '<i class="bi bi-sun-fill"></i> Light Mode';
   }
   
-  themeToggle.addEventListener('click', function() {
+  themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
     
-    // Update button text
-    this.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    // Update icon and text
+    if (isDark) {
+      icon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+      themeToggle.innerHTML = '<i class="bi bi-sun-fill"></i> Light Mode';
+    } else {
+      icon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+      themeToggle.innerHTML = '<i class="bi bi-moon-fill"></i> Dark Mode';
+    }
     
     // Save preference
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
-    // Add animation
-    this.classList.add('animate__animated', 'animate__pulse');
-    setTimeout(() => {
-      this.classList.remove('animate__animated', 'animate__pulse');
-    }, 500);
   });
+}
 
-  // Skip to content functionality
+// Skip Link
+function setupSkipLink() {
   const skipLink = document.querySelector('.skip-link');
   if (skipLink) {
-    skipLink.addEventListener('click', function(e) {
+    skipLink.addEventListener('click', (e) => {
       e.preventDefault();
       const target = document.getElementById('main');
       if (target) {
         target.setAttribute('tabindex', '-1');
         target.focus();
-        
-        // Smooth scroll
         window.scrollTo({
           top: target.offsetTop - 20,
           behavior: 'smooth'
         });
-        
         setTimeout(() => target.removeAttribute('tabindex'), 1000);
       }
     });
   }
-});
-// Add to your existing app.js
-
-// Star Rating Animation
-function animateStars() {
-  const stars = document.querySelectorAll('.star');
-  stars.forEach((star, index) => {
-    star.style.animationDelay = `${index * 0.1}s`;
-  });
 }
 
-// Review Form Toggle
-function setupReviewForm() {
+// Review System
+function setupReviewSystem() {
+  const reviews = JSON.parse(localStorage.getItem('restaurantReviews')) || {};
+  const restaurantId = new URLSearchParams(window.location.search).get('id');
+  
+  // DOM Elements
   const reviewBtn = document.getElementById('write-review-btn');
   const reviewForm = document.getElementById('review-form-container');
+  const cancelBtn = document.getElementById('cancel-review');
+  const form = document.getElementById('review-form');
+  const reviewsContainer = document.getElementById('reviews-container');
   
-  if (reviewBtn && reviewForm) {
-    reviewBtn.addEventListener('click', () => {
-      reviewForm.style.display = reviewForm.style.display === 'none' ? 'block' : 'none';
-      reviewBtn.textContent = reviewForm.style.display === 'none' ? 'Write a Review' : 'Cancel';
-    });
+  // Initialize
+  if (!restaurantId) return;
+  
+  // Load existing reviews
+  if (reviews[restaurantId]) {
+    renderReviews(reviews[restaurantId]);
+  } else {
+    showEmptyState();
   }
-
-  // Star Rating Input
+  
+  // Toggle review form
+  reviewBtn?.addEventListener('click', () => {
+    reviewForm.style.display = reviewForm.style.display === 'none' ? 'block' : 'none';
+    reviewBtn.innerHTML = reviewForm.style.display === 'none' ? 
+      '<i class="bi bi-pencil-square"></i> Write a Review' : 
+      '<i class="bi bi-x-circle"></i> Cancel';
+  });
+  
+  cancelBtn?.addEventListener('click', () => {
+    reviewForm.style.display = 'none';
+    reviewBtn.innerHTML = '<i class="bi bi-pencil-square"></i> Write a Review';
+    form.reset();
+    resetStarRating();
+  });
+  
+  // Star rating input
   const starInputs = document.querySelectorAll('.star-input');
+  let selectedRating = 0;
+  
   starInputs.forEach(star => {
     star.addEventListener('click', function() {
-      const value = parseInt(this.getAttribute('data-value'));
-      
-      // Update visual display
-      starInputs.forEach((s, i) => {
-        if (i < value) {
-          s.classList.add('active');
-          s.textContent = '★';
-        } else {
-          s.classList.remove('active');
-          s.textContent = '☆';
-        }
-      });
+      selectedRating = parseInt(this.getAttribute('data-value'));
+      updateStarRating(selectedRating);
     });
   });
+  
+  // Form submission
+  form?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const spinner = document.getElementById('submit-spinner');
+    const submitText = document.querySelector('.submit-text');
+    
+    // Show loading state
+    submitText.textContent = 'Submitting...';
+    spinner.classList.remove('d-none');
+    submitBtn.disabled = true;
+    
+    // Simulate submission
+    setTimeout(() => {
+      const reviewData = {
+        name: document.getElementById('reviewer-name').value.trim(),
+        rating: selectedRating,
+        text: document.getElementById('review-text').value.trim(),
+        date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      };
+      
+      // Validate
+      if (!reviewData.name || !reviewData.text || !reviewData.rating) {
+        alert('Please fill all required fields');
+        submitText.textContent = 'Submit Review';
+        spinner.classList.add('d-none');
+        submitBtn.disabled = false;
+        return;
+      }
+      
+      // Save to localStorage
+      if (!reviews[restaurantId]) {
+        reviews[restaurantId] = [];
+      }
+      reviews[restaurantId].unshift(reviewData);
+      localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
+      
+      // Reset form
+      form.reset();
+      resetStarRating();
+      reviewForm.style.display = 'none';
+      reviewBtn.innerHTML = '<i class="bi bi-pencil-square"></i> Write a Review';
+      
+      // Render new review
+      renderReviews(reviews[restaurantId]);
+      
+      // Reset button state
+      submitText.textContent = 'Submit Review';
+      spinner.classList.add('d-none');
+      submitBtn.disabled = false;
+      
+      // Show success message
+      const successAlert = document.createElement('div');
+      successAlert.className = 'alert alert-success mt-3';
+      successAlert.textContent = 'Thank you for your review!';
+      reviewsContainer.prepend(successAlert);
+      setTimeout(() => successAlert.remove(), 3000);
+    }, 800);
+  });
+  
+  // Helper functions
+  function updateStarRating(rating) {
+    starInputs.forEach((star, index) => {
+      if (index < rating) {
+        star.textContent = '★';
+        star.classList.add('active');
+      } else {
+        star.textContent = '☆';
+        star.classList.remove('active');
+      }
+    });
+  }
+  
+  function resetStarRating() {
+    selectedRating = 0;
+    starInputs.forEach(star => {
+      star.textContent = '☆';
+      star.classList.remove('active');
+    });
+  }
+  
+  function renderReviews(reviewsArray) {
+    reviewsContainer.innerHTML = '';
+    
+    if (!reviewsArray || reviewsArray.length === 0) {
+      showEmptyState();
+      return;
+    }
+    
+    reviewsArray.forEach((review, index) => {
+      const reviewElement = document.createElement('div');
+      reviewElement.className = `review-card ${index === 0 ? 'new-review' : ''}`;
+      reviewElement.innerHTML = `
+        <div class="review-header">
+          <h5 class="h6 mb-0">${review.name}</h5>
+          <div class="review-rating" aria-label="${review.rating} out of 5 stars">
+            ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+          </div>
+        </div>
+        <div class="review-date">${review.date}</div>
+        <div class="review-content">${review.text}</div>
+      `;
+      reviewsContainer.appendChild(reviewElement);
+    });
+  }
+  
+  function showEmptyState() {
+    reviewsContainer.innerHTML = `
+      <div class="text-center py-4">
+        <i class="bi bi-chat-square-text display-6 text-muted mb-3"></i>
+        <p class="text-muted">No reviews yet. Be the first to review!</p>
+      </div>
+    `;
+  }
 }
 
 // Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', function() {
-  // Your existing code...
+  setupThemeToggle();
+  setupSkipLink();
   
-  animateStars();
-  setupReviewForm();
+  // Only setup review system on restaurant page
+  if (document.getElementById('review-form-container')) {
+    setupReviewSystem();
+  }
+  
+  // Animate stars on homepage
+  const stars = document.querySelectorAll('.star');
+  stars.forEach((star, index) => {
+    star.style.animationDelay = `${index * 0.1}s`;
+  });
 });
