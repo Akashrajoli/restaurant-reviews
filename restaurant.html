@@ -1,50 +1,104 @@
-/* Accessibility overrides */
-.high-contrast {
-  background-color: #000 !important;
-  color: #fff !important;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Details</title>
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header role="banner" class="bg-primary text-white p-3">
+    <div class="container">
+      <h1 class="h2 mb-0">Restaurant Reviews</h1>
+      <p class="mb-0">Accessible dining experiences for everyone</p>
+    </div>
+  </header>
 
-.high-contrast .bg-light {
-  background-color: #333 !important;
-  color: #fff !important;
-}
+  <nav role="navigation" aria-label="Main" class="bg-light p-3">
+    <div class="container">
+      <ul class="nav">
+        <li class="nav-item"><a href="#main" class="nav-link">Skip to Content</a></li>
+        <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+        <li class="nav-item">
+          <button id="contrast-toggle" class="btn btn-sm btn-outline-secondary">
+            Toggle High Contrast
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-/* For reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+  <main id="main" role="main" class="container my-4">
+    <article>
+      <h2 id="restaurant-name" class="h3">Restaurant Name</h2>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <img id="restaurant-image" src="../images/default.jpg" alt="" class="img-fluid mb-3">
+        </div>
+        <div class="col-md-8">
+          <div class="rating mb-3" aria-label="Rating: 4 out of 5 stars">
+            <span class="visually-hidden">Rating: 4 out of 5 stars</span>
+            <span aria-hidden="true">★★★★☆</span>
+          </div>
+          
+          <p id="restaurant-address" class="mb-2"></p>
+          <p id="restaurant-description" class="mb-3"></p>
+          
+          <h3 class="h5">Accessibility Features</h3>
+          <ul id="accessibility-features" class="list-unstyled">
+            <!-- Features will be added by JavaScript -->
+          </ul>
+        </div>
+      </div>
+      
+      <!-- NEW REVIEW FORM SECTION -->
+      <section aria-labelledby="add-review-heading" class="mt-5">
+        <h3 id="add-review-heading" class="h4">Write a Review</h3>
+        <form id="review-form" class="mb-5">
+          <div class="mb-3">
+            <label for="reviewer-name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="reviewer-name" required aria-required="true">
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Rating</label>
+            <div class="rating-input" role="radiogroup" aria-labelledby="rating-label">
+              <span id="rating-label" class="visually-hidden">Select a rating from 1 to 5 stars</span>
+              <button type="button" class="btn btn-outline-secondary rating-star" aria-label="1 star" data-rating="1">☆</button>
+              <button type="button" class="btn btn-outline-secondary rating-star" aria-label="2 stars" data-rating="2">☆</button>
+              <button type="button" class="btn btn-outline-secondary rating-star" aria-label="3 stars" data-rating="3">☆</button>
+              <button type="button" class="btn btn-outline-secondary rating-star" aria-label="4 stars" data-rating="4">☆</button>
+              <button type="button" class="btn btn-outline-secondary rating-star" aria-label="5 stars" data-rating="5">☆</button>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="review-comment" class="form-label">Your Review</label>
+            <textarea class="form-control" id="review-comment" rows="3" required aria-required="true"></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+      </section>
+      
+      <section aria-labelledby="reviews-heading" class="mt-4">
+        <h3 id="reviews-heading" class="h4">Customer Reviews</h3>
+        <div id="reviews-container">
+          <!-- Reviews will be added by JavaScript -->
+        </div>
+      </section>
+    </article>
+  </main>
 
-/* Ensure proper focus styles */
-:focus {
-  outline: 3px solid #005fcc;
-  outline-offset: 2px;
-}
+  <footer role="contentinfo" class="bg-light p-3 mt-4">
+    <div class="container text-center">
+      <p>&copy; 2023 Accessible Restaurant Reviews</p>
+    </div>
+  </footer>
 
-/* Visually hidden but accessible to screen readers */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Accessible rating stars */
-.rating {
-  font-size: 1.5rem;
-  color: #ffc107;
-}
-
-/* Make sure buttons are large enough for touch */
-.btn, .form-control {
-  min-height: 44px;
-}
+  <script src="../js/a11y.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
