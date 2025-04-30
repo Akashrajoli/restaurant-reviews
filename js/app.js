@@ -28,30 +28,10 @@ function setupThemeToggle() {
   });
 }
 
-// Skip Link
-function setupSkipLink() {
-  const skipLink = document.querySelector('.skip-link');
-  if (skipLink) {
-    skipLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.getElementById('main');
-      if (target) {
-        target.setAttribute('tabindex', '-1');
-        target.focus();
-        window.scrollTo({
-          top: target.offsetTop - 20,
-          behavior: 'smooth'
-        });
-        setTimeout(() => target.removeAttribute('tabindex'), 1000);
-      }
-    });
-  }
-}
-
 // Review System
 function setupReviewSystem() {
   const reviews = JSON.parse(localStorage.getItem('restaurantReviews')) || {};
-  const restaurantId = new URLSearchParams(window.location.search).get('id');
+  const restaurantId = '1'; // Hardcoded for this example
   
   // DOM Elements
   const reviewBtn = document.getElementById('write-review-btn');
@@ -60,15 +40,27 @@ function setupReviewSystem() {
   const form = document.getElementById('review-form');
   const reviewsContainer = document.getElementById('reviews-container');
   
-  // Initialize
-  if (!restaurantId) return;
+  // Sample reviews if none exist
+  if (!reviews[restaurantId]) {
+    reviews[restaurantId] = [
+      {
+        name: "Sarah Johnson",
+        rating: 5,
+        text: "The handmade pasta was exceptional, and the staff was very accommodating to my gluten-free needs. The ambiance is perfect for a romantic evening.",
+        date: "March 15, 2023"
+      },
+      {
+        name: "Michael Chen",
+        rating: 4,
+        text: "Great wine selection and the truffle pasta was divine. The noise level was a bit high in the main dining area, but they happily moved us to the quieter section when we asked.",
+        date: "February 28, 2023"
+      }
+    ];
+    localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
+  }
   
   // Load existing reviews
-  if (reviews[restaurantId]) {
-    renderReviews(reviews[restaurantId]);
-  } else {
-    showEmptyState();
-  }
+  renderReviews(reviews[restaurantId]);
   
   // Toggle review form
   reviewBtn?.addEventListener('click', () => {
@@ -131,10 +123,7 @@ function setupReviewSystem() {
         return;
       }
       
-      // Save to localStorage
-      if (!reviews[restaurantId]) {
-        reviews[restaurantId] = [];
-      }
+      // Add to reviews
       reviews[restaurantId].unshift(reviewData);
       localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
       
@@ -152,7 +141,7 @@ function setupReviewSystem() {
       spinner.classList.add('d-none');
       submitBtn.disabled = false;
       
-      // Show success message
+      // Show success
       const successAlert = document.createElement('div');
       successAlert.className = 'alert alert-success mt-3';
       successAlert.textContent = 'Thank you for your review!';
@@ -186,7 +175,12 @@ function setupReviewSystem() {
     reviewsContainer.innerHTML = '';
     
     if (!reviewsArray || reviewsArray.length === 0) {
-      showEmptyState();
+      reviewsContainer.innerHTML = `
+        <div class="text-center py-4">
+          <i class="bi bi-chat-square-text display-6 text-muted mb-3"></i>
+          <p class="text-muted">No reviews yet. Be the first to review!</p>
+        </div>
+      `;
       return;
     }
     
@@ -206,30 +200,10 @@ function setupReviewSystem() {
       reviewsContainer.appendChild(reviewElement);
     });
   }
-  
-  function showEmptyState() {
-    reviewsContainer.innerHTML = `
-      <div class="text-center py-4">
-        <i class="bi bi-chat-square-text display-6 text-muted mb-3"></i>
-        <p class="text-muted">No reviews yet. Be the first to review!</p>
-      </div>
-    `;
-  }
 }
 
 // Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', function() {
   setupThemeToggle();
-  setupSkipLink();
-  
-  // Only setup review system on restaurant page
-  if (document.getElementById('review-form-container')) {
-    setupReviewSystem();
-  }
-  
-  // Animate stars on homepage
-  const stars = document.querySelectorAll('.star');
-  stars.forEach((star, index) => {
-    star.style.animationDelay = `${index * 0.1}s`;
-  });
+  setupReviewSystem();
 });
